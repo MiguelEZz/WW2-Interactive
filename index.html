@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Segunda Guerra Mundial</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23c9a227%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M2 5c3-1.5 7-1.5 10 1 3-2.5 7-2.5 10-1v14c-3-1.5-7-1.5-10 1-3-2.5-7-2.5-10-1z%22/><path d=%22M12 6v14%22/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@600;700&family=Big+Shoulders+Stencil+Display:wght@700;900&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="./estilos.css">
+</head>
+<body class="intro">
+
+  <div class="table"></div>
+
+  <div class="wallgroup" id="wallgroup">
+    <div class="wall"></div>
+    <div class="shelf-board"></div>
+    <div class="shelf-books" id="shelf"></div>
+  </div>
+
+  <p class="hint" id="hint">Elige un capítulo del estante</p>
+  <p class="pregunta-central"><small>Pregunta central</small><span id="preguntaEstante"></span></p>
+
+  <div class="scene" id="scene">
+    <div class="book" id="book">
+      <div class="book-shadow"></div>
+      <div class="base base-r"></div>
+      <div class="base base-l"></div>
+    </div>
+  </div>
+
+  <div class="light"></div>
+  <div class="vignette"></div>
+
+  <div class="simon" id="simon">
+    <img id="simonImg" alt="Simon">
+  </div>
+  <div class="bubble" id="bubble">
+    <p id="bubble-text"></p>
+    <button id="bubble-next">Continuar ▸</button>
+  </div>
+
+  <header class="topbar">
+    <span class="logo">★ Segunda Guerra Mundial</span>
+    <div class="top-btns">
+      <button class="round" id="relBtn" title="Red de relaciones" aria-label="Abrir la red de relaciones" data-icono="red"></button>
+      <button class="round" id="mapBtn" title="Ocultar mapa" aria-label="Mostrar u ocultar el mapa" data-icono="mapa"></button>
+      <button class="round" id="music" title="Música activada" aria-label="Activar o silenciar la música" data-icono="musica"></button>
+      <button class="round" id="voice" title="Voz activada" aria-label="Activar o silenciar la voz" data-icono="voz"></button>
+    </div>
+  </header>
+
+  <aside class="panel" id="panel">
+    <p class="kicker" id="kicker"></p>
+    <h2 id="p-title"></h2>
+    <p id="p-text"></p>
+  </aside>
+
+  <section class="mapbox" id="mapbox" aria-label="Mapa">
+    <p class="map-title" id="mapTitle"></p>
+    <div class="minimap" id="minimap"></div>
+  </section>
+
+  <nav class="controls" id="controls">
+    <button class="wide" id="back" data-icono="estante"> Estante</button>
+    <button id="prev" aria-label="Página anterior">&#8592;</button>
+    <span id="indicator"></span>
+    <button id="next" aria-label="Página siguiente">&#8594;</button>
+  </nav>
+
+  <div class="relaciones" id="relaciones">
+    <button class="relaciones-cerrar" id="relCerrar" aria-label="Cerrar">×</button>
+    <iframe id="relFrame" title="Red de relaciones"></iframe>
+  </div>
+
+  <div class="pregunta-pantalla" id="preguntaPantalla" role="dialog" aria-labelledby="preguntaGrande">
+    <small>Pregunta central</small>
+    <h2 id="preguntaGrande"></h2>
+    <button class="quiz-btn" id="preguntaSeguir">Continuar ›</button>
+  </div>
+
+  <div class="quiz" id="conclusion" role="dialog" aria-modal="true" aria-labelledby="conclusionTitulo">
+    <div class="quiz-card conclusion-card">
+      <small>Conclusión</small>
+      <h3 id="conclusionTitulo"></h3>
+      <div id="conclusionTexto"></div>
+      <button class="quiz-btn" id="conclusionBtn">Cerrar</button>
+    </div>
+  </div>
+
+  <div class="quiz" id="quiz" role="dialog" aria-modal="true" aria-labelledby="quizPregunta">
+    <div class="quiz-card">
+      <small id="quizPaso"></small>
+      <h3 id="quizPregunta"></h3>
+      <div class="quiz-opciones" id="quizOpciones"></div>
+      <p class="quiz-nota" id="quizNota"></p>
+      <button class="quiz-btn" id="quizBtn"></button>
+    </div>
+  </div>
+
+  <p class="guide" id="guide" role="status" aria-live="polite"></p>
+
+  <div class="film" id="film">
+    <div class="film-frame">
+      <video id="filmVideo" playsinline preload="auto"></video>
+      <div class="flicker"></div>
+      <div class="grain"></div>
+      <div class="scratches"></div>
+      <div class="film-card" id="filmCard">
+        <div class="film-title" id="filmTitleBox">
+          <small id="filmKicker"></small>
+          <h2 id="filmTitle"></h2>
+          <p id="filmSub"></p>
+        </div>
+      </div>
+      <div class="film-vignette"></div>
+    </div>
+    <button class="skip" id="skipFilm">Saltar ›</button>
+  </div>
+
+  <div class="curtain" id="curtain">
+    <div class="slides" aria-hidden="true">
+      <div class="slide" style="background-image:url('assets/berlin.jpg'); --i:0; --x0:-3%; --x1:3%;  --y0:2%;  --y1:-2%"></div>
+      <div class="slide" style="background-image:url('assets/tanques.jpg'); --i:1; --x0:3%;  --x1:-3%; --y0:-1%; --y1:2%"></div>
+      <div class="slide" style="background-image:url('assets/normandia.jpg'); --i:2; --x0:-2%; --x1:2%;  --y0:-2%; --y1:2%"></div>
+      <div class="slide" style="background-image:url('assets/niebla.jpg'); --i:3; --x0:2%;  --x1:-2%; --y0:1%;  --y1:-1%"></div>
+    </div>
+    <div class="curtain-flash" id="flash" aria-hidden="true"></div>
+    <div class="curtain-shade" aria-hidden="true"></div>
+    <canvas class="embers" id="embers" aria-hidden="true"></canvas>
+    <div class="curtain-simon" aria-hidden="true">
+      <img src="assets/simon.png" alt="">
+    </div>
+    <div class="curtain-inner">
+      <p class="curtain-kicker">1939 &nbsp;—&nbsp; 1945</p>
+      <h1>Segunda<br>Guerra Mundial</h1>
+      <p class="curtain-sub">Siete capítulos contados por Simon</p>
+      <p class="curtain-pregunta" id="preguntaPortada"></p>
+      <button class="start" id="start">▶ Comenzar</button>
+      <div class="curtain-bar" aria-hidden="true"><i></i></div>
+    </div>
+    <p class="sound-hint" id="soundHint" data-icono="voz"> Haz clic en cualquier parte para activar la música</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <script src="./config.js"></script>
+
+  <script src="./capitulos/1/capitulo.js"></script>
+  <script src="./capitulos/2/capitulo.js"></script>
+  <script src="./capitulos/3/capitulo.js"></script>
+  <script src="./capitulos/4/capitulo.js"></script>
+  <script src="./capitulos/5/capitulo.js"></script>
+  <script src="./capitulos/6/capitulo.js"></script>
+  <script src="./capitulos/7/capitulo.js"></script>
+
+  <script src="./app.js"></script>
+</body>
+</html>
